@@ -1,6 +1,10 @@
+import os
 import pytest
 from selene.support.shared import browser
 from selene import command, have, be
+import web_tests
+from web_tests import resources
+from pathlib import Path
 
 
 def test_submit():
@@ -15,9 +19,9 @@ def test_submit():
     browser.element('#userNumber').type('8922121245')
 
     browser.element('#dateOfBirthInput').click()
-    browser.element('.react-datepicker__month-select').click().element('option[value="11"]').click()
-    browser.element('.react-datepicker__year-select').click().element('option[value="1997"]').click()
-    browser.element('.react-datepicker__week>.react-datepicker__day--011').click()
+    browser.element('.react-datepicker__month-select').send_keys('December')
+    browser.element('.react-datepicker__year-select').send_keys('1997')
+    browser.element(f'.react-datepicker__day--0{11}').click()
 
     browser.element('#subjectsInput').click().type('computer')
     browser.all('.subjects-auto-complete__option').element_by(have.exact_text('Computer Science')).click()
@@ -26,5 +30,19 @@ def test_submit():
     browser.all('[for^=hobbies-checkbox]').element_by(have.exact_text('Reading')).click()
     browser.all('[for^=hobbies-checkbox]').element_by(have.exact_text('Music')).click()
 
+    browser.element('#uploadPicture').set_value(
+        os.path.abspath(
+            os.path.join(os.path.dirname(web_tests.__file__), 'resources/foto.jpeg')
+        )
+    )
+
+    browser.element('#currentAddress').type('Tyumen, Pavla Sharova Street 42')
+
+    browser.element('#state').perform(command.js.scroll_into_view).click()
+    browser.all('[id^=react-select][id*=option]').element_by(have.exact_text('NCR')).click()
+    browser.element('#city').click()
+    browser.all('[id^=react-select][id*=option]').element_by(have.exact_text('Noida')).perform(command.js.click)
+
+    browser.element('#submit').press_enter()
 
     # THEN
