@@ -1,7 +1,7 @@
 import os
 from selene.support.shared import browser
 from selene import command, have
-import web_test
+import web_tests
 
 
 def test_submit():
@@ -29,7 +29,7 @@ def test_submit():
 
     browser.element('#uploadPicture').set_value(
         os.path.abspath(
-            os.path.join(os.path.dirname(web_test.__file__), 'resources/foto.jpeg')
+            os.path.join(os.path.dirname(web_tests.__file__), 'resources/foto.jpeg')
         )
     )
 
