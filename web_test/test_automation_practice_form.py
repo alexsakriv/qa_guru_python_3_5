@@ -1,10 +1,7 @@
 import os
-import pytest
 from selene.support.shared import browser
-from selene import command, have, be
-import web_tests
-from web_tests import resources
-from pathlib import Path
+from selene import command, have
+import web_test
 
 
 def test_submit():
@@ -32,11 +29,11 @@ def test_submit():
 
     browser.element('#uploadPicture').set_value(
         os.path.abspath(
-            os.path.join(os.path.dirname(web_tests.__file__), 'resources/foto.jpeg')
+            os.path.join(os.path.dirname(web_test.__file__), 'resources/foto.jpeg')
         )
     )
 
-    browser.element('#currentAddress').type('Tyumen, Pavla Sharova Street 42')
+    browser.element('#currentAddress').type('Tyumen, Moskovskaya Street 42')
 
     browser.element('#state').perform(command.js.scroll_into_view).click()
     browser.all('[id^=react-select][id*=option]').element_by(have.exact_text('NCR')).click()
