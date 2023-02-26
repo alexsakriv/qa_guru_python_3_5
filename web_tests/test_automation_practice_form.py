@@ -43,3 +43,17 @@ def test_submit():
     browser.element('#submit').press_enter()
 
     # THEN
+    browser.element('.table').all('td').even.should(
+        have.exact_texts(
+            'Aleksandra Krivoruchenko',
+            'test@test.com',
+            'Female',
+            '8922121245',
+            '11 December,1997',
+            'Computer Science',
+            'Sports, Reading, Music',
+            'foto.jpeg',
+            'Tyumen, Moskovskaya Street 42',
+            'NCR Noida',
+        )
+    )
